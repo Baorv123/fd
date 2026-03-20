@@ -1,0 +1,49 @@
+repeat task.wait() until game:IsLoaded()
+
+_G.ThemeID = _G.ThemeID or nil
+_G.AutoTranslate = (_G.AutoTranslate == nil) and true or _G.AutoTranslate
+_G.SaveConfig = (_G.SaveConfig == nil) and true or _G.SaveConfig
+
+local HttpService = game:GetService("HttpService")
+local StarterGui = game:GetService("StarterGui")
+
+local function Notify(title, text, time)
+    StarterGui:SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = time or 3
+    })
+end
+
+local UniverseID
+local success, result = pcall(function()
+    return HttpService:JSONDecode(
+        game:HttpGet("https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe")
+    )
+end)
+
+if success and result then
+    UniverseID = result.universeId
+else
+    Notify("Kudou Hub", "Lỗi lấy UniverseID", 5)
+    return
+end
+
+if UniverseID == 994732206 then
+    
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/notifywelcome/refs/heads/main/Gaynotify"))()
+
+    Notify("Bamia Hub", "Loading Kaitun Blox Fruits", 3)
+    task.wait(2)
+
+    Notify("Bamia Hub", "Loader Success!", 5)
+    task.wait(1)
+
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/kaitun/refs/heads/main/Bamia.lua.txt"))()
+
+else
+    Notify("Bamia Hub", "Game Not Supported", 5)
+    task.wait(1)
+
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/notsupport/refs/heads/main/Ui"))()
+end
